@@ -14,7 +14,7 @@
 ## Reproducing Results
 
 1. Run `python3 src/reddit_scraper.py -a <after> -b <before> -l <limit> -s <subreddit>`.
-  * The `-s` argument is optional. Default: all. For further help, run `python3 src/reddit_Scraper.py -h`.
+* The `-s` argument is optional. Default: all. For further help, run `python3 src/reddit_scraper.py -h`.
 
 2. View results in `out` folder.
 
