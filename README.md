@@ -2,8 +2,8 @@
 
 ## Dependencies
 
-[pmaw](https://pypi.org/project/pmaw/)
-[langdetect](https://pypi.org/project/langdetect/)
+*[pmaw](https://pypi.org/project/pmaw/)
+*[langdetect](https://pypi.org/project/langdetect/)
 
 ## Getting Started
 
