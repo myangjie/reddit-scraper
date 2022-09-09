@@ -19,3 +19,9 @@
 2. View results in `out` folder.
 
 Example output is included in `sample` folder. (Parameters: `python3 src/reddit_scraper.py -a 20220101 -b 20220501 -l 5 -s montreal`)
+
+### Important!
+
+Keywords for the search query are located in `data/keywords.csv`.
+
+
