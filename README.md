@@ -7,7 +7,7 @@
 
 ## Getting Started
 
-1. Clone the repository: `git clone github.com/myangjie/reddit-scraper`
+1. Clone the repository: `git clone https://github.com/myangjie/reddit-scraper`
 
 2. Install the requirements: `cd reddit-scraper && pip3 install -r requirements.txt`
 
