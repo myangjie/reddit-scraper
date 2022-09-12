@@ -13,12 +13,12 @@
 
 ## Reproducing Results
 
-1. Run `python3 src/reddit_scraper.py -a <after> -b <before> -l <limit> -s <subreddit>`.
+1. Run `python3 src/reddit_scraper.py -a <after> -b <before> -s <subreddit>`.
 * The `-s` argument is optional. Default: all. For further help, run `python3 src/reddit_scraper.py -h`.
 
 2. View results in `out` folder.
 
-Example output is included in `sample` folder. (Parameters: `python3 src/reddit_scraper.py -a 20220101 -b 20220501 -l 5 -s montreal`)
+Example output is included in `sample` folder. (Parameters: `python3 src/reddit_scraper.py -a 20220101 -b 20220501 -s montreal`)
 
 ### Important!
 
