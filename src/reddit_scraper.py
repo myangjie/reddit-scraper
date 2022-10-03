@@ -4,6 +4,8 @@ from pathlib import Path
 from pmaw import PushshiftAPI
 api = PushshiftAPI()
 import datetime as dt
+import calendar
+from dateutil.relativedelta import relativedelta
 import json
 import pandas as pd
 from clean_text import *
@@ -184,7 +186,7 @@ def main():
     subr = args.sub 
 
     #get keywords
-    keyws = os.path.join(parentdir, "data", "keywords.csv")
+    keyws = os.path.join(parentdir, "data", "keywords_s.csv")
     
     df = pd.read_csv(keyws, header=None)
     keywords = list(df.iloc[:,1])
@@ -198,8 +200,8 @@ def main():
     mm_b = int(before[4:6])
     dd_b = int(before[6:9])
 
-    start_date = dt.datetime(yyyy_a, mm_a, dd_a).timestamp()
-    end_date = dt.datetime(yyyy_b, mm_b, dd_b).timestamp()
+    start_date = dt.datetime(yyyy_a, mm_a, dd_a)
+    end_date = dt.datetime(yyyy_b, mm_b, dd_b)
 
     if end_date<start_date:
         sys.exit("Your end date is before your start date.")
@@ -213,14 +215,26 @@ def main():
 
     #loop through keywords
 
+    # for word in keywords:
+    #     if subr is not None:
+    #         scrape_submissions(word, start_date, end_date, subr)
+    #         scrape_comments(word, start_date, end_date, subr)
+    #     else:
+    #         scrape_submissions(word, start_date, end_date)
+    #         scrape_comments(word, start_date, end_date)
+
+    monthly_dates = pd.date_range(start=start_date,end=end_date, freq="MS").to_pydatetime().tolist()
+
     for word in keywords:
-        if subr is not None:
-            scrape_submissions(word, start_date, end_date, subr)
-            scrape_comments(word, start_date, end_date, subr)
-        else:
-            scrape_submissions(word, start_date, end_date)
-            scrape_comments(word, start_date, end_date)
-        
+        for start_month in monthly_dates:
+            end_month = start_month+relativedelta(days=(calendar.monthrange(2022, 1)[1]-1))
+            if subr is not None:
+                scrape_submissions(word, start_month.timestamp(), end_month.timestamp(), subr)
+                scrape_comments(word, start_month.timestamp(), end_month.timestamp(), subr)
+            else:
+                scrape_submissions(word, start_month.timestamp(), end_month.timestamp())
+                scrape_comments(word, start_month.timestamp(), end_month.timestamp())
+            
 if __name__ == "__main__":
 
     main()

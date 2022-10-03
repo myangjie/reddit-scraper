@@ -69,8 +69,12 @@ def clean_data(file):
             text["title"] = title_content
 
         else:
-            if (detect(text["body"]) != "en"):
+            try:
+                if (detect(text["body"]) != "en"):
+                    continue
+            except:
                 continue
+
                 
             #comments
             parsed_bodytext = parse_text(text["body"])
@@ -79,36 +83,6 @@ def clean_data(file):
             text["body"] = body_content
         
         cleaned_data["data"].append(text)
-
-        # try:
-            
-        #     if (detect(text["selftext"]) != "en") or (detect(text["title"]) != "en"):
-        #         continue
-            
-        #     #submissions
-        #     parsed_selftext = parse_text(text["selftext"])
-        #     parsed_title = parse_text(text["title"])
-        
-        #     selftext_content = ' '.join(parsed_selftext.split())
-            
-        #     title_content = ' '.join(parsed_title.split())
-            
-        #     text["selftext"] = selftext_content
-        #     text["title"] = title_content
-            
-            
-        # except KeyError:
-
-        #     if (detect(text["body"]) != "en"):
-        #         continue
-                
-        #     #comments
-        #     parsed_bodytext = parse_text(text["body"])
-        #     body_content = ' '.join(parsed_bodytext.split())
-            
-        #     text["body"] = body_content
-        
-        # cleaned_data["data"].append(text)
         
     return cleaned_data
 
