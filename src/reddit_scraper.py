@@ -186,7 +186,7 @@ def main():
     subr = args.sub 
 
     #get keywords
-    keyws = os.path.join(parentdir, "data", "keywords_s.csv")
+    keyws = os.path.join(parentdir, "data", "keywords.csv")
     
     df = pd.read_csv(keyws, header=None)
     keywords = list(df.iloc[:,1])
