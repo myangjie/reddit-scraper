@@ -186,7 +186,7 @@ def main():
     subr = args.sub 
 
     #get keywords
-    keyws = os.path.join(parentdir, "data", "keywords.csv")
+    keyws = os.path.join(parentdir, "data", "keywords_s.csv")
     
     df = pd.read_csv(keyws, header=None)
     keywords = list(df.iloc[:,1])
@@ -213,27 +213,18 @@ def main():
       
       os.makedirs(cachedir)
 
-    #loop through keywords
-
-    # for word in keywords:
-    #     if subr is not None:
-    #         scrape_submissions(word, start_date, end_date, subr)
-    #         scrape_comments(word, start_date, end_date, subr)
-    #     else:
-    #         scrape_submissions(word, start_date, end_date)
-    #         scrape_comments(word, start_date, end_date)
-
     monthly_dates = pd.date_range(start=start_date,end=end_date, freq="MS").to_pydatetime().tolist()
 
     for word in keywords:
-        for start_month in monthly_dates:
-            end_month = start_month+relativedelta(days=(calendar.monthrange(2022, 1)[1]-1))
-            if subr is not None:
-                scrape_submissions(word, start_month.timestamp(), end_month.timestamp(), subr)
-                scrape_comments(word, start_month.timestamp(), end_month.timestamp(), subr)
-            else:
-                scrape_submissions(word, start_month.timestamp(), end_month.timestamp())
-                scrape_comments(word, start_month.timestamp(), end_month.timestamp())
+        for start_month in monthly_dates[:-1]:
+            if start_month != end_date:
+                end_month = start_month+relativedelta(days=(calendar.monthrange(start_month.year, start_month.month)[1]-1))
+                if subr is not None:
+                    #scrape_submissions(word, start_month.timestamp(), end_month.timestamp(), subr)
+                    scrape_comments(word, start_month.timestamp(), end_month.timestamp(), subr)
+                else:
+                    #scrape_submissions(word, start_month.timestamp(), end_month.timestamp())
+                    scrape_comments(word, start_month.timestamp(), end_month.timestamp())
             
 if __name__ == "__main__":
 
