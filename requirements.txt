@@ -2,4 +2,4 @@ pmaw
 langdetect
 python-dateutil
 pandas
-
+regex
