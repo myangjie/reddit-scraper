@@ -2,7 +2,7 @@ import argparse
 import os, sys
 from pathlib import Path
 from pmaw import PushshiftAPI
-api = PushshiftAPI()
+api = PushshiftAPI(rate_limit=50, limit_type='backoff', jitter='equal')
 import datetime as dt
 import calendar
 from dateutil.relativedelta import relativedelta
@@ -216,15 +216,16 @@ def main():
     monthly_dates = pd.date_range(start=start_date,end=end_date, freq="MS").to_pydatetime().tolist()
 
     for word in keywords:
-        for start_month in monthly_dates[:-1]:
-            if start_month != end_date:
-                end_month = start_month+relativedelta(days=(calendar.monthrange(start_month.year, start_month.month)[1]-1))
-                if subr is not None:
-                    #scrape_submissions(word, start_month.timestamp(), end_month.timestamp(), subr)
-                    scrape_comments(word, start_month.timestamp(), end_month.timestamp(), subr)
-                else:
-                    #scrape_submissions(word, start_month.timestamp(), end_month.timestamp())
-                    scrape_comments(word, start_month.timestamp(), end_month.timestamp())
+        print("Starting: "+ word)
+        for start_month in monthly_dates:
+            print(start_month)
+            end_month = start_month+relativedelta(days=(calendar.monthrange(start_month.year, start_month.month)[1]-1))
+            if subr is not None:
+                #scrape_submissions(word, start_month.timestamp(), end_month.timestamp(), subr)
+                scrape_comments(word, start_month.timestamp(), end_month.timestamp(), subr)
+            else:
+                #scrape_submissions(word, start_month.timestamp(), end_month.timestamp())
+                scrape_comments(word, start_month.timestamp(), end_month.timestamp())
             
 if __name__ == "__main__":
 
