@@ -9,6 +9,8 @@ from dateutil.relativedelta import relativedelta
 import json
 import pandas as pd
 from clean_text import *
+import time
+import requests
 parentdir = Path(__file__).resolve().parents[1]
 outdir = os.path.join(parentdir, "out")
 cachedir = os.path.join(parentdir, "cache")
@@ -221,11 +223,21 @@ def main():
             print(start_month)
             end_month = start_month+relativedelta(days=(calendar.monthrange(start_month.year, start_month.month)[1]-1))
             if subr is not None:
-                #scrape_submissions(word, start_month.timestamp(), end_month.timestamp(), subr)
-                scrape_comments(word, start_month.timestamp(), end_month.timestamp(), subr)
+                with requests.Session() as session:
+                    while 1:
+                        try:
+                            #scrape_submissions(word, start_month.timestamp(), end_month.timestamp(), subr)
+                            scrape_comments(word, start_month.timestamp(), end_month.timestamp(), subr)
+                        except requests.exceptions.ConnectionError:
+                            time.sleep(2) # Sleeping For 2 seconds to resolve the server overload error
             else:
-                #scrape_submissions(word, start_month.timestamp(), end_month.timestamp())
-                scrape_comments(word, start_month.timestamp(), end_month.timestamp())
+                with requests.Session() as session:
+                    while 1:
+                        try:
+                            #scrape_submissions(word, start_month.timestamp(), end_month.timestamp())
+                            scrape_comments(word, start_month.timestamp(), end_month.timestamp())
+                        except requests.exceptions.ConnectionError:
+                            time.sleep(2) # Sleeping For 2 seconds to resolve the server overload error
             
 if __name__ == "__main__":
 
