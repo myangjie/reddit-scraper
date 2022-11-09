@@ -224,20 +224,18 @@ def main():
             end_month = start_month+relativedelta(days=(calendar.monthrange(start_month.year, start_month.month)[1]-1))
             if subr is not None:
                 with requests.Session() as session:
-                    while 1:
-                        try:
-                            #scrape_submissions(word, start_month.timestamp(), end_month.timestamp(), subr)
-                            scrape_comments(word, start_month.timestamp(), end_month.timestamp(), subr)
-                        except requests.exceptions.ConnectionError:
-                            time.sleep(2) # Sleeping For 2 seconds to resolve the server overload error
+                    try:
+                        #scrape_submissions(word, start_month.timestamp(), end_month.timestamp(), subr)
+                        scrape_comments(word, start_month.timestamp(), end_month.timestamp(), subr)
+                    except requests.exceptions.ConnectionError:
+                        time.sleep(2)
             else:
                 with requests.Session() as session:
-                    while 1:
-                        try:
-                            #scrape_submissions(word, start_month.timestamp(), end_month.timestamp())
-                            scrape_comments(word, start_month.timestamp(), end_month.timestamp())
-                        except requests.exceptions.ConnectionError:
-                            time.sleep(2) # Sleeping For 2 seconds to resolve the server overload error
+                    try:
+                        #scrape_submissions(word, start_month.timestamp(), end_month.timestamp())
+                        scrape_comments(word, start_month.timestamp(), end_month.timestamp())
+                    except requests.exceptions.ConnectionError:
+                        time.sleep(2)
             
 if __name__ == "__main__":
 
